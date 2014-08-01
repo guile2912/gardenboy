@@ -169,7 +169,10 @@ end
 
 -- on SlashCommand "/gardenboy"
 function GardenBoy:OnGardenBoyOn()
+
+  self:GetLowestCommodity()
 	self.wndMain:Invoke() -- show the window
+  self:Redraw()
 end
 
 -- on timer
@@ -281,8 +284,8 @@ function GardenBoy:GetBestDeltaCommodity()
   
   
   table.sort(computage, function(a,b) return a[2] > b[2] end)
-  self.wndMain:Show()
-self:Redraw()
+  --self.wndMain:Show()
+  --self:Redraw()
 
   Print('-------')
   for i = 1, 10, 1 do
@@ -514,6 +517,7 @@ function GardenBoy:Redraw()
 --Print("nothing here")
 --		return
 --	end
+
   for i = 1, 10, 1 do
     local nItemId = computage[i][1]
     local wndCurr = self:FactoryCacheProduce(self.wndMain:FindChild("MainSliderPanel"), "ListItem", "I" .. nItemId)
