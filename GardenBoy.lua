@@ -170,9 +170,9 @@ end
 -- on SlashCommand "/gardenboy"
 function GardenBoy:OnGardenBoyOn()
 
-  self:GetLowestCommodity()
-	self.wndMain:Invoke() -- show the window
+  self:GetBestDeltaCommodity()
   self:Redraw()
+  self.wndMain:Invoke() -- show the window
 end
 
 -- on timer
@@ -523,13 +523,13 @@ function GardenBoy:Redraw()
     local wndCurr = self:FactoryCacheProduce(self.wndMain:FindChild("MainSliderPanel"), "ListItem", "I" .. nItemId)
     local tCurrItem = Item.GetDataFromId(nItemId)
     wndCurr:FindChild("ListItemBtn"):SetData(tCurrItem)
-    wndCurr:FindChild("ListItemTitle"):SetText(tCurrItem.strName)
+    wndCurr:FindChild("ListItemTitle"):SetText(tCurrItem:GetName())
     
     --icone
     if tCurrItem.eType == Item.CodeEnumLootItemType.StaticItem then
-      wndCurr:FindChild("ListItemIcon"):GetWindowSubclass():SetItem(tCurrItem.itemData)
+      wndCurr:FindChild("ListItemIcon"):GetWindowSubclass():SetItem(tCurrItem)
     else
-      wndCurr:FindChild("ListItemIcon"):SetSprite(tCurrItem.strIcon)
+      wndCurr:FindChild("ListItemIcon"):SetSprite(tCurrItem:GetIcon())
     end
     
     local stat = self.tSavedData['commodity'][nItemId]
@@ -578,6 +578,8 @@ function GardenBoy:Redraw()
     wndCurr:FindChild("ListItemCashWindowBenef"):SetAmount(monPrice, true)
       
   end
+  
+  self.wndMain:FindChild("MainSliderPanel"):ArrangeChildrenVert(0)
 end
 
 function GardenBoy:FactoryCacheProduce(wndParent, strFormName, strKey)
